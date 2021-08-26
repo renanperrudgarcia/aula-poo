@@ -2,8 +2,8 @@
   class Conn
   {
     public $username = 'root';
-    public $password = 'root';
-    public $dsn = "mysql:dbname=aulapoo;host=mysql";
+    public $password = '';
+    public $dsn = "mysql:dbname=php_oo;host=localhost";
     public $port = 3306;
     public $connect = null;
 
@@ -15,5 +15,16 @@
       } catch (\Throwable $th) {
         throw $th;
       }      
+    }
+
+    public function listarProfessores():array
+    {
+      $sql = "SELECT nome,telefone,email,especialidade,salario,data_nascimento
+             FROM professor p
+             LEFT JOIN pessoa pe ON pe.id = p.pessoa_id ";
+      $conectar = $this->connect();
+      $result = $conectar->prepare($sql);
+      $result->execute();
+      return $result->fetchAll();       
     }
   }

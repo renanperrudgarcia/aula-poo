@@ -15,40 +15,41 @@ ini_set('display_error', 1);
   <?php
     require './Pessoa.php';
     require './Estudante.php';
+    require './Professor.php';
 
     $estudante = new Estudante(1);
     echo $estudante->disciplinasMatriculadas();
   ?>
 
-  <br><hr>
-
-  <?php
-    $ira = $estudante->atualizaIRA(9);
-    echo "Novo IRA {$ira} <br>";
-
-    $ira = $estudante->atualizaIRA(5);
-    echo "Novo IRA {$ira} <br>";
-  ?>
+  
 
 <br><hr>
-
+<h2>Professor</h2>
 <?php
-  $estudante->nome = 'Maria';
-  $estudante->matricula = '2021020001';
-  $dadosEstudante = $estudante->verEstudante();
-  foreach ($dadosEstudante as $key => $value) {
-    echo "{$key}: {$value} <br>";
+  $conexao  = new Conn();
+  $professores = $conexao->listarProfessores();
+  foreach ($professores as $key => $value){
+   echo $value['nome']."<a href='editarEstudante.php?email={$value['email']}'>Editar</a><br>";
   }
+ 
+  
+
 ?>
 
 <br><hr>
-
-<?php 
-  $pessoa = new Pessoa(1);
-  $pessoaDados = $pessoa->verDados();
-  echo "Nome: {$pessoaDados->nome} <br>";
-  echo "Telefone: {$pessoaDados->telefone} <br>";
-  echo "Email: {$pessoaDados->email} <br>";
+<h2>Estudante</h2>
+<?php
+  $estudante = new Estudante('re@gmail.com');
+  $estudanteDados = $estudante->verEstudante();
+  echo "Nome: {$estudanteDados->nome} <br> ";
+  echo "Telefone: {$estudanteDados->telefone} <br> ";
+  echo "Email: {$estudanteDados->email} <br> ";
+  echo "Matricula: {$estudanteDados->matricula} <br> ";
+  echo "Ira: {$estudanteDados->ira} <br> ";
+  echo "Idade: {$estudante->calculaIdade($estudanteDados->data_nascimento)} <br> ";
+  echo "Avaliação: {$estudante->calculaAvaliacao()}";
+  
 ?>
+
 </body>
 </html>

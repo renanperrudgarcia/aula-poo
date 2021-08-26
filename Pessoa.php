@@ -2,16 +2,17 @@
 
 require './Conn.php';
 
-class Pessoa
+abstract class Pessoa
 {
   public int $id;
   public string $nome;
   public string $telefone;
   public string $email;
+  public string $dataNascimento;
 
-  public function __construct($id)
+  public function __construct($email)
   {
-    $this->id = $id;
+    $this->email = $email;
   }
 
   public function verDados():object
@@ -26,4 +27,13 @@ class Pessoa
     
     return $result->fetchObject();
   }
+  public function calculaIdade($dataNascimento):int
+  {
+    $date = new DateTime($dataNascimento);
+    $interval = $date->diff(new DateTime(date('Y-m-d')));
+    return $interval->format('%Y');
+  }
+
+  abstract function calculaAvaliacao();
+ 
 }
